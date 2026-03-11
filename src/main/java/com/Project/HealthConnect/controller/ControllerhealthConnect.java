@@ -1,4 +1,4 @@
-package com.Project.HealthConnect;
+package com.Project.HealthConnect.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
