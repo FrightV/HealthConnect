@@ -1,7 +1,7 @@
 package com.Project.HealthConnect.controller;
 
 import com.Project.HealthConnect.model.Paciente;
-import com.Project.HealthConnect.repository.PacienteRepository;
+import com.Project.HealthConnect.service.PacienteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/pacientes")
 public class PacienteController {
 
-    private final PacienteRepository pacienteRepository;
+    private final PacienteService pacienteService;
 
-    public PacienteController(PacienteRepository pacienteRepository) {
-        this.pacienteRepository = pacienteRepository;
+    public PacienteController(PacienteService pacienteService) {
+        this.pacienteService = pacienteService;
     }
 
     @GetMapping
     public String listarPacientes(Model model) {
-        model.addAttribute("pacientes", pacienteRepository.findAll());
+        model.addAttribute("pacientes", pacienteService.listarTodos());
         return "pacientes/list";
     }
 
@@ -30,14 +30,13 @@ public class PacienteController {
 
     @PostMapping("/salvar")
     public String salvarPaciente(@ModelAttribute Paciente paciente) {
-        pacienteRepository.save(paciente);
+        pacienteService.salvar(paciente);
         return "redirect:/pacientes";
     }
 
     @GetMapping("/editar/{id}")
     public String editarPaciente(@PathVariable Long id, Model model) {
-        Paciente paciente = pacienteRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("ID inválido"));
+        Paciente paciente = pacienteService.buscarPorId(id);
         model.addAttribute("paciente", paciente);
         return "pacientes/form";
     }
