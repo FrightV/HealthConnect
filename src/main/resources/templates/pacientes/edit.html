@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Editar Informações</title>
+</head>
+<body>
+
+<h2>Atualizar contato</h2>
+
+<form th:action="@{/pacientes/salvar}" th:object="${paciente}" method="post">
+
+    <input type="hidden" th:field="*{id}" />
+
+    <label>Nome:</label>
+    <input type="text" th:field="*{nome}" readonly />
+
+    <br>
+
+    <label>CPF:</label>
+    <input type="text" th:field="*{cpf}" readonly />
+
+    <br>
+
+    <label>Telefone:</label>
+    <input type="text" th:field="*{telefone}" />
+
+    <br>
+
+    <label>Email:</label>
+    <input type="email" th:field="*{email}" />
+
+    <br>
+
+    <button type="submit">Salvar</button>
+
+</form>
+
+<br>
+<a th:href="@{/pacientes}">Voltar</a>
+
+</body>
+</html>

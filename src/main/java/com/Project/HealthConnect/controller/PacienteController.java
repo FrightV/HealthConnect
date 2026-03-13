@@ -35,7 +35,10 @@ public class PacienteController {
     @PostMapping("/salvar")
     public String salvarPaciente(@ModelAttribute PacienteDTO pacienteDTO) {
 
-        pacienteService.salvar(pacienteDTO);
+        if (pacienteDTO.getId()==null){
+            pacienteService.salvar(pacienteDTO);
+        } else{pacienteService.atualizarContato(pacienteDTO);
+        }
 
         return "redirect:/pacientes";
     }
@@ -47,7 +50,7 @@ public class PacienteController {
 
         model.addAttribute("paciente", paciente);
 
-        return "pacientes/form";
+        return "pacientes/edit";
     }
 
     @GetMapping("/excluir/{id}")
