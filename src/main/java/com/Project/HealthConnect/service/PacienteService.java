@@ -32,6 +32,13 @@ public class PacienteService {
         paciente.setCpf(dto.getCpf());
         paciente.setTelefone(dto.getTelefone());
         paciente.setEmail(dto.getEmail());
+        paciente.setCep(dto.getCep());
+        paciente.setLogradouro(dto.getLogradouro());
+        paciente.setNumero(dto.getNumero());
+        paciente.setBairro(dto.getBairro());
+        paciente.setCidade(dto.getCidade());
+        paciente.setEstado(dto.getEstado());
+
 
         pacienteRepository.save(paciente);
     }
@@ -53,6 +60,13 @@ public class PacienteService {
         dto.setCpf(paciente.getCpf());
         dto.setTelefone(paciente.getTelefone());
         dto.setEmail(paciente.getEmail());
+        paciente.setCep(dto.getCep());
+        paciente.setLogradouro(dto.getLogradouro());
+        paciente.setNumero(dto.getNumero());
+        paciente.setBairro(dto.getBairro());
+        paciente.setCidade(dto.getCidade());
+        paciente.setEstado(dto.getEstado());
+
 
         return dto;
     }
