@@ -10,5 +10,12 @@ public class PacienteDTO {
     private String cpf;
     private String telefone;
     private String email;
+    private String cep;
+    private String logradouro;
+    private String numero;
+    private String bairro;
+    private String cidade;
+    private String estado;
+
 
 }
