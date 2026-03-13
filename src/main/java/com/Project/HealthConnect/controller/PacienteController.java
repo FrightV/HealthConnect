@@ -49,4 +49,11 @@ public class PacienteController {
 
         return "pacientes/form";
     }
+
+    @GetMapping("/excluir/{id}")
+    public String excluirPaciente(@PathVariable Long id){
+
+        pacienteService.excluir(id);
+        return "redirect:/pacientes";
+    }
 }

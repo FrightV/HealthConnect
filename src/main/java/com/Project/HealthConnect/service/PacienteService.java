@@ -56,4 +56,8 @@ public class PacienteService {
 
         return dto;
     }
+
+    public void excluir(Long id) {
+        pacienteRepository.deleteById(id);
+    }
 }
