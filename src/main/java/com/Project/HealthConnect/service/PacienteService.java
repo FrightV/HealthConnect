@@ -60,4 +60,15 @@ public class PacienteService {
     public void excluir(Long id) {
         pacienteRepository.deleteById(id);
     }
+
+    public void atualizarContato(PacienteDTO dto) {
+
+        Paciente paciente = pacienteRepository.findById(dto.getId())
+                .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
+
+        paciente.setTelefone(dto.getTelefone());
+        paciente.setEmail(dto.getEmail());
+
+        pacienteRepository.save(paciente);
+    }
 }
