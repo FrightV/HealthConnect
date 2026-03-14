@@ -4,6 +4,7 @@ import com.Project.HealthConnect.DTO.PacienteDTO;
 import com.Project.HealthConnect.model.Paciente;
 import com.Project.HealthConnect.repository.PacienteRepository;
 import org.springframework.stereotype.Service;
+import br.com.caelum.stella.validation.CPFValidator;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,12 +25,23 @@ public class PacienteService {
                 .collect(Collectors.toList());
     }
 
+    public void validarCpf(String cpf){
+        CPFValidator validator=new CPFValidator();
+
+        try{
+            validator.assertValid(cpf);
+        }catch(Exception e){
+            throw new RuntimeException("CPF inválido");
+        }
+    }
+
     public void salvar(PacienteDTO dto) {
 
         Paciente paciente = new Paciente();
 
         paciente.setNome(dto.getNome());
         paciente.setCpf(dto.getCpf());
+        validarCpf(dto.getCpf());
         paciente.setTelefone(dto.getTelefone());
         paciente.setEmail(dto.getEmail());
         paciente.setCep(dto.getCep());
