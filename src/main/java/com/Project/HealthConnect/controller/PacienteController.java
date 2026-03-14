@@ -2,8 +2,10 @@ package com.Project.HealthConnect.controller;
 
 import com.Project.HealthConnect.DTO.PacienteDTO;
 import com.Project.HealthConnect.service.PacienteService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -33,12 +35,16 @@ public class PacienteController {
     }
 
     @PostMapping("/salvar")
-    public String salvarPaciente(@ModelAttribute PacienteDTO pacienteDTO) {
+    public String salvarPaciente(
+            @Valid @ModelAttribute PacienteDTO pacienteDTO,
+            BindingResult result,
+            Model model) {
 
-        if (pacienteDTO.getId()==null){
-            pacienteService.salvar(pacienteDTO);
-        } else{pacienteService.atualizarContato(pacienteDTO);
+        if(result.hasErrors()){
+            return "pacientes/form";
         }
+
+        pacienteService.salvar(pacienteDTO);
 
         return "redirect:/pacientes";
     }
