@@ -12,7 +12,15 @@
     <input type="hidden" th:field="*{id}" />
 
     Nome: <input type="text" th:field="*{nome}" /><br><br>
-    CPF: <input type="text" th:field="*{cpf}" /><br><br>
+
+    <label>CPF:</label>
+    <input type="text" th:field="*{cpf}">
+    <span th:if="${#fields.hasErrors('cpf')}"
+          th:errors="*{cpf}"
+          style="color:red"></span>
+    <br><br>
+
+
     Telefone: <input type="text" th:field="*{telefone}" /><br><br>
     Email: <input type="email" th:field="*{email}" /><br><br>
 
