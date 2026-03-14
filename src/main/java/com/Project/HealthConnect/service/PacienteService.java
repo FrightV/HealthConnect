@@ -12,14 +12,14 @@ import java.util.stream.Collectors;
 @Service
 public class PacienteService {
 
-    private final PacienteRepository pacienteRepository;
+    private final PacienteRepository PacienteRepository;
 
-    public PacienteService(PacienteRepository pacienteRepository) {
-        this.pacienteRepository = pacienteRepository;
+    public PacienteService(PacienteRepository PacienteRepository) {
+        this.PacienteRepository = PacienteRepository;
     }
 
     public List<PacienteDTO> listarTodos() {
-        return pacienteRepository.findAll()
+        return PacienteRepository.findAll()
                 .stream()
                 .map(this::converterParaDTO)
                 .collect(Collectors.toList());
@@ -40,8 +40,13 @@ public class PacienteService {
         Paciente paciente = new Paciente();
 
         paciente.setNome(dto.getNome());
+
         paciente.setCpf(dto.getCpf());
         validarCpf(dto.getCpf());
+        if(PacienteRepository.existsByCpf(dto.getCpf())){
+            throw new RuntimeException("CPF já cadastrado");
+        }
+
         paciente.setTelefone(dto.getTelefone());
         paciente.setEmail(dto.getEmail());
         paciente.setCep(dto.getCep());
@@ -52,12 +57,12 @@ public class PacienteService {
         paciente.setEstado(dto.getEstado());
 
 
-        pacienteRepository.save(paciente);
+        PacienteRepository.save(paciente);
     }
 
     public PacienteDTO buscarPorId(Long id) {
 
-        Paciente paciente = pacienteRepository.findById(id)
+        Paciente paciente = PacienteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
 
         return converterParaDTO(paciente);
@@ -84,17 +89,17 @@ public class PacienteService {
     }
 
     public void excluir(Long id) {
-        pacienteRepository.deleteById(id);
+        PacienteRepository.deleteById(id);
     }
 
     public void atualizarContato(PacienteDTO dto) {
 
-        Paciente paciente = pacienteRepository.findById(dto.getId())
+        Paciente paciente = PacienteRepository.findById(dto.getId())
                 .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
 
         paciente.setTelefone(dto.getTelefone());
         paciente.setEmail(dto.getEmail());
 
-        pacienteRepository.save(paciente);
+        PacienteRepository.save(paciente);
     }
 }
