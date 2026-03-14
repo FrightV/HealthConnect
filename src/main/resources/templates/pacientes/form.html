@@ -9,70 +9,91 @@
 
 <form th:action="@{/pacientes/salvar}" th:object="${paciente}" method="post">
 
+    <div th:if="${#fields.hasErrors('*')}" style="color:red">
+        Existem erros no formulário
+    </div>
+
     <input type="hidden" th:field="*{id}" />
 
-    Nome: <input type="text" th:field="*{nome}" /><br><br>
-
-    <label>CPF:</label>
-    <input type="text" th:field="*{cpf}">
-    <span th:if="${#fields.hasErrors('cpf')}"
-          th:errors="*{cpf}"
-          style="color:red"></span>
+    <label>Nome:</label>
+    <input type="text" th:field="*{nome}">
+    <span th:errors="*{nome}" style="color:red"></span>
     <br><br>
 
+    <label>CPF:</label>
+    <input type="text" th:field="*{cpf}" pattern="[0-9]{11}" placeholder="Ex: 12345678901">
+    <span th:errors="*{cpf}" style="color:red"></span>
+    <br><br>
 
-    Telefone: <input type="text" th:field="*{telefone}" /><br><br>
-    Email: <input type="email" th:field="*{email}" /><br><br>
+    <label>Telefone:</label>
+    <input type="text" th:field="*{telefone}">
+    <span th:errors="*{telefone}" style="color:red"></span>
+    <br><br>
+
+    <label>Email:</label>
+    <input type="email" th:field="*{email}">
+    <span th:errors="*{email}" style="color:red"></span>
+    <br><br>
 
     <label>CEP:</label>
-    <input type="text" th:field="*{cep}" id="cep" placeholder="Exemplo: 12345678910">
+    <input type="text" th:field="*{cep}" id="cep" placeholder="Exemplo: 01001000">
     <button type="button" onclick="buscarCep()">Buscar CEP</button>
+    <span th:errors="*{cep}" style="color:red"></span>
 
-    <br>
+    <br><br>
 
     <label>Rua:</label>
     <input type="text" th:field="*{logradouro}" id="logradouro">
 
-    <br>
+    <br><br>
 
     <label>Número:</label>
     <input type="text" th:field="*{numero}">
+    <span th:errors="*{numero}" style="color:red"></span>
 
-    <br>
+    <br><br>
 
     <label>Bairro:</label>
     <input type="text" th:field="*{bairro}" id="bairro">
 
-    <br>
+    <br><br>
 
     <label>Cidade:</label>
     <input type="text" th:field="*{cidade}" id="cidade">
 
-    <br>
+    <br><br>
 
     <label>Estado:</label>
     <input type="text" th:field="*{estado}" id="estado">
 
-    <br>
+    <br><br>
 
     <button type="submit">Salvar</button>
 
 </form>
 
+
 <br>
 <a th:href="@{/pacientes}">Voltar</a>
-
-</body>
-</html>
 
 <script>
     function buscarCep() {
 
         let cep = document.getElementById("cep").value;
 
+        if (cep.length !== 8) {
+            alert("CEP deve conter 8 números");
+            return;
+        }
+
         fetch("https://viacep.com.br/ws/" + cep + "/json/")
             .then(response => response.json())
             .then(data => {
+
+                if (data.erro) {
+                    alert("CEP não encontrado");
+                    return;
+                }
 
                 document.getElementById("logradouro").value = data.logradouro;
                 document.getElementById("bairro").value = data.bairro;
@@ -84,3 +105,5 @@
     }
 </script>
 
+</body>
+</html>

@@ -36,11 +36,16 @@ public class PacienteController {
 
     @PostMapping("/salvar")
     public String salvarPaciente(
-            @Valid @ModelAttribute PacienteDTO pacienteDTO,
+            @Valid @ModelAttribute("paciente") PacienteDTO pacienteDTO,
             BindingResult result,
             Model model) {
 
+        if(!pacienteService.cpfValido(pacienteDTO.getCpf())){
+            result.rejectValue("cpf", "erro.cpf", "CPF inválido");
+        }
+
         if(result.hasErrors()){
+            model.addAttribute("paciente", pacienteDTO);
             return "pacientes/form";
         }
 
@@ -48,6 +53,7 @@ public class PacienteController {
 
         return "redirect:/pacientes";
     }
+
 
     @GetMapping("/editar/{id}")
     public String editarPaciente(@PathVariable Long id, Model model) {

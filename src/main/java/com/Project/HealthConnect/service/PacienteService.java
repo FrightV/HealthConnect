@@ -25,28 +25,25 @@ public class PacienteService {
                 .collect(Collectors.toList());
     }
 
-    public void validarCpf(String cpf){
-        CPFValidator validator=new CPFValidator();
+    public boolean cpfValido(String cpf){
+
+        CPFValidator validator = new CPFValidator();
 
         try{
             validator.assertValid(cpf);
+            return true;
         }catch(Exception e){
-            throw new RuntimeException("CPF inválido");
+            return false;
         }
     }
+
 
     public void salvar(PacienteDTO dto) {
 
         Paciente paciente = new Paciente();
 
         paciente.setNome(dto.getNome());
-
         paciente.setCpf(dto.getCpf());
-        validarCpf(dto.getCpf());
-        if(PacienteRepository.existsByCpf(dto.getCpf())){
-            throw new RuntimeException("CPF já cadastrado");
-        }
-
         paciente.setTelefone(dto.getTelefone());
         paciente.setEmail(dto.getEmail());
         paciente.setCep(dto.getCep());
@@ -77,12 +74,12 @@ public class PacienteService {
         dto.setCpf(paciente.getCpf());
         dto.setTelefone(paciente.getTelefone());
         dto.setEmail(paciente.getEmail());
-        paciente.setCep(dto.getCep());
-        paciente.setLogradouro(dto.getLogradouro());
-        paciente.setNumero(dto.getNumero());
-        paciente.setBairro(dto.getBairro());
-        paciente.setCidade(dto.getCidade());
-        paciente.setEstado(dto.getEstado());
+        dto.setCep(paciente.getCep());
+        dto.setLogradouro(paciente.getLogradouro());
+        dto.setNumero(paciente.getNumero());
+        dto.setBairro(paciente.getBairro());
+        dto.setCidade(paciente.getCidade());
+        dto.setEstado(paciente.getEstado());
 
 
         return dto;

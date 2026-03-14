@@ -35,5 +35,4 @@ public class PacienteDTO {
     private String cidade;
     private String estado;
 
-
 }
